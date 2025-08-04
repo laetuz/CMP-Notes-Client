@@ -59,6 +59,7 @@ kotlin {
             api(libs.sqlite.bundled)
             api(libs.bundles.ktor)
             api(libs.bundles.koin)
+            implementation(libs.androidx.navigation.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
