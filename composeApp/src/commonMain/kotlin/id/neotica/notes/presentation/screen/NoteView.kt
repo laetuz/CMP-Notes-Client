@@ -1,5 +1,6 @@
-package id.neotica.notes.presentation
+package id.neotica.notes.presentation.screen
 
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,13 +34,17 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import co.touchlab.kermit.Logger
 import id.neotica.notes.domain.Note
+import id.neotica.notes.presentation.navigation.Screen
 import id.neotica.notes.presentation.theme.NeoColor
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteView(
+    navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: NoteViewModel = koinViewModel()
 ) {
@@ -75,14 +80,21 @@ fun NoteView(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(items = notes.value) { note ->
-                NoteCard(note)
+                NoteCard(note) {
+                    Logger.d { "Note clicked: ${note.id}" }
+                    navController.navigate(Screen.NoteDetailScreen(note.id.toString()))
+                }
             }
-            items(items = notes.value) { note ->
-                NoteCard(note)
-            }
-            items(items = notes.value) { note ->
-                NoteCard(note)
-            }
+//            items(items = notes.value) { note ->
+//                NoteCard(note) {
+//                    navController.navigate(Screen.NoteDetailScreen(note.id.toString()))
+//                }
+//            }
+//            items(items = notes.value) { note ->
+//                NoteCard(note) {
+//                    navController.navigate(Screen.NoteDetailScreen(note.id.toString()))
+//                }
+//            }
         }
     }
 }
@@ -107,8 +119,15 @@ fun SearchField(searchText: MutableState<String>) {
 }
 
 @Composable
-fun NoteCard(note: Note) {
-    Card {
+fun NoteCard(note: Note, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .combinedClickable(
+                onClick = {
+                    onClick()
+                }
+            )
+    ) {
         Column (
             modifier = Modifier.padding(16.dp)
         ) {

@@ -1,4 +1,4 @@
-package id.neotica.notes.presentation
+package id.neotica.notes.presentation.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

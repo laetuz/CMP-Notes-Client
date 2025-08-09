@@ -9,7 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import id.neotica.notes.presentation.NoteView
+import id.neotica.notes.presentation.screen.NoteView
+import id.neotica.notes.presentation.screen.detail.NoteDetailView
 
 @Composable
 fun NavGraph(
@@ -23,6 +24,7 @@ fun NavGraph(
         popExitTransition = { ExitTransition.None },
         startDestination = Screen.MainScreen
     ) {
-        composable<Screen.MainScreen>{ NoteView() }
+        composable<Screen.MainScreen>{ NoteView(navController) }
+        composable<Screen.NoteDetailScreen> { NoteDetailView(navController) }
     }
 }

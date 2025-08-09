@@ -6,4 +6,6 @@ import kotlinx.serialization.Serializable
 sealed class Screen {
     @Serializable
     data object MainScreen : Screen()
+    @Serializable
+    data class NoteDetailScreen(val id: String): Screen()
 }
