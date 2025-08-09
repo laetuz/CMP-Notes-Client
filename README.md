@@ -12,7 +12,7 @@ This is the official client for the **[Ktor Notes API](https://github.com/laetuz
 
 |   Android   | Desktop |  iOS  |
 |:-----------:|:-------:|:-----:|
-| coming soon |  coming soon  | coming soon |
+| <img src="https://github.com/user-attachments/assets/b1126cda-33eb-4e2f-80a1-ffe7b5fe806d" alt="Android" width=100%/> |  <img src="https://github.com/user-attachments/assets/0901de25-5f2e-4f8c-94d5-404c900db458" alt="Neoverse Screenshot 1" width=100%/>  | coming soon |
 
 ---
 
