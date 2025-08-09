@@ -13,7 +13,7 @@ class NoteViewModel(
     private val noteRepo: NoteRepositoryImpl
 ): ViewModel() {
 
-    private val _notes: MutableStateFlow<List<Note>> = MutableStateFlow(emptyList())
+    private val _notes: MutableStateFlow<List<Note>?> = MutableStateFlow(emptyList())
     val notes = _notes.asStateFlow()
 
     init {
@@ -22,7 +22,7 @@ class NoteViewModel(
 
     private fun getNotes() = viewModelScope.launch {
         noteRepo.getNotes().collect {
-            _notes.value = it
+            _notes.value = it.data
             Logger.d("✨Its Working ✨") { it.toString() }
         }
     }

@@ -25,6 +25,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -48,7 +49,7 @@ fun NoteView(
     modifier: Modifier = Modifier,
     viewModel: NoteViewModel = koinViewModel()
 ) {
-    val notes = viewModel.notes.collectAsState()
+    val notes by viewModel.notes.collectAsState()
     val searchText = remember { mutableStateOf("") }
     val nestedBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
@@ -79,22 +80,14 @@ fun NoteView(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(items = notes.value) { note ->
-                NoteCard(note) {
-                    Logger.d { "Note clicked: ${note.id}" }
-                    navController.navigate(Screen.NoteDetailScreen(note.id.toString()))
+            notes?.let { noteList ->
+                items(items = noteList) { note ->
+                    NoteCard(note) {
+                        Logger.d { "Note clicked: ${note.id}" }
+                        navController.navigate(Screen.NoteDetailScreen(note.id.toString()))
+                    }
                 }
             }
-//            items(items = notes.value) { note ->
-//                NoteCard(note) {
-//                    navController.navigate(Screen.NoteDetailScreen(note.id.toString()))
-//                }
-//            }
-//            items(items = notes.value) { note ->
-//                NoteCard(note) {
-//                    navController.navigate(Screen.NoteDetailScreen(note.id.toString()))
-//                }
-//            }
         }
     }
 }
