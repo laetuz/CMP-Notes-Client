@@ -44,10 +44,7 @@ class NoteRepositoryImpl(
 
     fun postNote(note: Note): Flow<ApiResult<Note>> = flow {
         emit(ApiResult.Loading())
-        val newNote = Note(
-            title = "7",
-            content = "Content 7"
-        )
+        val newNote = note
 
         val respond = client.post("$baseUrl/notes") {
             headers {

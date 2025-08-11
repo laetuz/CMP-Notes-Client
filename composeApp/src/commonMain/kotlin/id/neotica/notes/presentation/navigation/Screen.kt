@@ -7,5 +7,5 @@ sealed class Screen {
     @Serializable
     data object MainScreen : Screen()
     @Serializable
-    data class NoteDetailScreen(val id: String): Screen()
+    data class NoteDetailScreen(val id: String = ""): Screen()
 }

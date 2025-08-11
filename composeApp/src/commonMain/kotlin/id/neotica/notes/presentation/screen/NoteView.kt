@@ -4,10 +4,12 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -38,6 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import co.touchlab.kermit.Logger
 import id.neotica.notes.domain.Note
+import id.neotica.notes.presentation.components.DotsMenuItem
+import id.neotica.notes.presentation.components.MenuDropDown
 import id.neotica.notes.presentation.navigation.Screen
 import id.neotica.notes.presentation.theme.NeoColor
 import org.koin.compose.viewmodel.koinViewModel
@@ -50,6 +55,7 @@ fun NoteView(
     viewModel: NoteViewModel = koinViewModel()
 ) {
     val notes by viewModel.notes.collectAsState()
+    val isRefresh by viewModel.isLoading.collectAsState()
     val searchText = remember { mutableStateOf("") }
     val nestedBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
@@ -57,38 +63,68 @@ fun NoteView(
         modifier.nestedScroll(nestedBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
-                { SearchField(searchText) },
+                title = {
+                    Row(
+                        modifier= Modifier.fillMaxWidth().padding(end = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        SearchField(searchText)
+                        MenuDropDown(
+                            listOf(
+                                DotsMenuItem("lol") {},
+                                DotsMenuItem("lol") {},
+                                DotsMenuItem("lol") {},
+                            )
+                        )
+                    }
+                },
                 scrollBehavior = nestedBehavior,
                 colors = TopAppBarDefaults.topAppBarColors().copy(
                     containerColor = Color.Transparent,
                     scrolledContainerColor = NeoColor.transparent
                 )
             )
+        },
+        floatingActionButton = {
+            Text(
+                text = "Add Note",
+                modifier = Modifier.combinedClickable(
+                    onClick = {
+                        navController.navigate(Screen.NoteDetailScreen())
+                    }
+                )
+            )
         }
     ) {
         val layoutDirection = LocalLayoutDirection.current
 
-        LazyVerticalGrid(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            columns = GridCells.Adaptive(180.dp),
-            contentPadding = PaddingValues(
-                start = it.calculateStartPadding(layoutDirection),
-                end = it.calculateEndPadding(layoutDirection),
-                top = it.calculateTopPadding(),
-                bottom = WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadding()
-            ),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        PullToRefreshBox(
+            onRefresh = { viewModel.getNotes() },
+            isRefreshing = isRefresh
         ) {
-            notes?.let { noteList ->
-                items(items = noteList) { note ->
-                    NoteCard(note) {
-                        Logger.d { "Note clicked: ${note.id}" }
-                        navController.navigate(Screen.NoteDetailScreen(note.id.toString()))
+            LazyVerticalGrid(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                columns = GridCells.Adaptive(180.dp),
+                contentPadding = PaddingValues(
+                    start = it.calculateStartPadding(layoutDirection),
+                    end = it.calculateEndPadding(layoutDirection),
+                    top = it.calculateTopPadding(),
+                    bottom = WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadding()
+                ),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                notes?.let { noteList ->
+                    items(items = noteList) { note ->
+                        NoteCard(note) {
+                            Logger.d { "Note clicked: ${note.id}" }
+                            navController.navigate(Screen.NoteDetailScreen(note.id.toString()))
+                        }
                     }
                 }
             }
         }
+
     }
 }
 
