@@ -33,6 +33,10 @@ ktor = "3.2.3"
 moko = "0.25.0"
 #navigation
 navigationCompose = "2.9.0-beta01"
+kotlinStdlib = "2.2.0"
+runner = "1.5.2"
+core = "1.5.0"
+uiDesktop = "1.7.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -82,6 +86,10 @@ androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navi
 #moko
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko" }
 moko-resources-compose = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
+androidx-ui-desktop = { group = "androidx.compose.ui", name = "ui-desktop", version.ref = "uiDesktop" }
 
 
 [plugins]
@@ -99,6 +107,7 @@ room = { id = "androidx.room", version.ref = "room" }
 #moko
 moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }
 android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+android-lint = { id = "com.android.lint", version.ref = "agp" }
 
 [bundles]
 ktor = [

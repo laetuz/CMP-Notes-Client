@@ -60,6 +60,8 @@ kotlin {
             api(libs.bundles.ktor)
             api(libs.bundles.koin)
             implementation(libs.androidx.navigation.compose)
+
+            implementation(projects.toast)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

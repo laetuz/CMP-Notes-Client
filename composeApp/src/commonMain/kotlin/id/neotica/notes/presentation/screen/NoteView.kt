@@ -39,7 +39,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import co.touchlab.kermit.Logger
+import id.neotica.toast.ToastManager
 import id.neotica.notes.domain.Note
 import id.neotica.notes.presentation.components.DotsMenuItem
 import id.neotica.notes.presentation.components.MenuDropDown
@@ -58,6 +58,8 @@ fun NoteView(
     val isRefresh by viewModel.isLoading.collectAsState()
     val searchText = remember { mutableStateOf("") }
     val nestedBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
+    val toastManager by remember { mutableStateOf(ToastManager()) }
 
     Scaffold(
         modifier.nestedScroll(nestedBehavior.nestedScrollConnection),
@@ -99,7 +101,10 @@ fun NoteView(
         val layoutDirection = LocalLayoutDirection.current
 
         PullToRefreshBox(
-            onRefresh = { viewModel.getNotes() },
+            onRefresh = {
+                toastManager.showToast("Refreshing...")
+                viewModel.getNotes()
+            },
             isRefreshing = isRefresh
         ) {
             LazyVerticalGrid(
@@ -116,8 +121,9 @@ fun NoteView(
             ) {
                 notes?.let { noteList ->
                     items(items = noteList) { note ->
-                        NoteCard(note) {
-                            Logger.d { "Note clicked: ${note.id}" }
+                        NoteCard(note, onLongClick = {
+                            toastManager.showToast("Note clicked: ${note.id}")
+                        }) {
                             navController.navigate(Screen.NoteDetailScreen(note.id.toString()))
                         }
                     }
@@ -148,10 +154,11 @@ fun SearchField(searchText: MutableState<String>) {
 }
 
 @Composable
-fun NoteCard(note: Note, onClick: () -> Unit) {
+fun NoteCard(note: Note, onLongClick: () -> Unit ? = {}, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .combinedClickable(
+                onLongClick = { onLongClick.invoke() },
                 onClick = {
                     onClick()
                 }
