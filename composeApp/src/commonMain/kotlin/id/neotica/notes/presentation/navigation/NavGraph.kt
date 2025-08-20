@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import id.neotica.notes.presentation.screen.NoteView
+import id.neotica.notes.presentation.screen.auth.login.LoginView
+import id.neotica.notes.presentation.screen.auth.register.RegisterView
 import id.neotica.notes.presentation.screen.detail.NoteDetailView
 
 @Composable
@@ -23,5 +25,7 @@ fun NavGraph(
     ) {
         composable<Screen.MainScreen>{ NoteView(navController) }
         composable<Screen.NoteDetailScreen> { NoteDetailView(navController) }
+        composable<Screen.LoginScreen> { LoginView(navController) }
+        composable<Screen.RegisterScreen> { RegisterView(navController) }
     }
 }

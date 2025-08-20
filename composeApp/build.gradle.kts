@@ -39,6 +39,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+//            implementation(libs.koin.android)
             implementation(libs.ktor.client.android)
         }
         iosMain.dependencies {
@@ -60,6 +61,9 @@ kotlin {
             api(libs.bundles.ktor)
             api(libs.bundles.koin)
             implementation(libs.androidx.navigation.compose)
+
+            implementation(libs.datastore)
+            implementation(libs.datastore.preferences)
 
             implementation(projects.toast)
         }

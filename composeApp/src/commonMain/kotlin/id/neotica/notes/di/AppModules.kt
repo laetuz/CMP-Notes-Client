@@ -1,7 +1,11 @@
 package id.neotica.notes.di
 
+import id.neotica.notes.data.AuthRepositoryImpl
 import id.neotica.notes.data.NoteRepositoryImpl
+import id.neotica.notes.data.SessionManager
 import id.neotica.notes.presentation.screen.NoteViewModel
+import id.neotica.notes.presentation.screen.auth.login.LoginViewModel
+import id.neotica.notes.presentation.screen.auth.register.RegisterViewModel
 import id.neotica.notes.presentation.screen.detail.NoteDetailViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -15,13 +19,25 @@ import org.koin.dsl.module
 
 fun initializeKoin(config: KoinAppDeclaration? = null) = startKoin {
     config?.invoke(this)
-    modules(ktorModule, repoModules)
+    modules(
+        ktorModule,
+        repoModules,
+        sessionModule,
+        platformModule()
+    )
+}
+
+val sessionModule = module {
+    singleOf(::SessionManager)
 }
 
 val repoModules = module {
     singleOf(::NoteRepositoryImpl)
+    singleOf(::AuthRepositoryImpl)
     viewModelOf(::NoteViewModel)
     viewModelOf(::NoteDetailViewModel)
+    viewModelOf(::LoginViewModel)
+    viewModelOf(::RegisterViewModel)
 }
 
 val ktorModule = module {

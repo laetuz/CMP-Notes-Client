@@ -8,4 +8,8 @@ sealed class Screen {
     data object MainScreen : Screen()
     @Serializable
     data class NoteDetailScreen(val id: String = ""): Screen()
+    @Serializable
+    data object LoginScreen : Screen()
+    @Serializable
+    data object RegisterScreen : Screen()
 }

@@ -73,7 +73,7 @@ fun NoteView(
                         SearchField(searchText)
                         MenuDropDown(
                             listOf(
-                                DotsMenuItem("lol") {},
+                                DotsMenuItem("Login") { navController.navigate(Screen.LoginScreen) },
                                 DotsMenuItem("lol") {},
                                 DotsMenuItem("lol") {},
                             )

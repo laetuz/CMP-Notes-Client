@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import id.neotica.notes.domain.Note
 import id.neotica.notes.presentation.components.DotsMenuItem
 import id.neotica.notes.presentation.components.MenuDropDown
+import id.neotica.toast.ToastManager
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,15 +40,23 @@ fun NoteDetailView(
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
     val note by viewModel.notes.collectAsStateWithLifecycle()
-
+    val message by viewModel.message.collectAsStateWithLifecycle()
 
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
+
+    val toastManager by remember { mutableStateOf(ToastManager()) }
 
     LaunchedEffect(note) {
         note?.let {
             title = it.title.toString()
             content = it.content.toString()
+        }
+    }
+
+    LaunchedEffect(message) {
+        if (message.isNotEmpty()) {
+            toastManager.showToast(message)
         }
     }
 
@@ -95,6 +104,8 @@ fun NoteDetailView(
         ) {
             item {
                 if (!isLoading) {
+                    Text("id: ${note?.id}")
+                    Text("userId: ${note?.userId}")
                     TextField(
                         value = title,
                         onValueChange = {

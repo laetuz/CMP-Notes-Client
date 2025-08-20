@@ -22,9 +22,9 @@ class NoteRepositoryImpl(
 ) {
 
     fun getNotes(): Flow<ApiResult<List<Note>>> = flow {
-        val respond = client.get("$baseUrl/notes").body<List<Note>>()
         emit(ApiResult.Loading())
         try {
+            val respond = client.get("$baseUrl/notes").body<List<Note>>()
             emit(ApiResult.Success(respond))
         } catch (e: Exception) {
             emit(ApiResult.Error(e.message))
@@ -34,10 +34,12 @@ class NoteRepositoryImpl(
     fun getNote(id: String): Flow<ApiResult<Note>> = flow {
         Logger.d("getNote $baseUrl/notes/$id")
         emit(ApiResult.Loading())
-        val respond = client.get("$baseUrl/notes/$id").body<Note>()
+
         try {
+            val respond = client.get("$baseUrl/notes/$id").body<Note>()
             emit(ApiResult.Success(respond))
         } catch (e: Exception) {
+            Logger.e("Error: ${e.message}")
             emit(ApiResult.Error(e.message))
         }
     }
@@ -46,14 +48,13 @@ class NoteRepositoryImpl(
         emit(ApiResult.Loading())
         val newNote = note
 
-        val respond = client.post("$baseUrl/notes") {
-            headers {
-                contentType(ContentType.Application.Json)
-            }
-            setBody(newNote)
-        }.body<Note>()
-
         try {
+            val respond = client.post("$baseUrl/notes") {
+                headers {
+                    contentType(ContentType.Application.Json)
+                }
+                setBody(newNote)
+            }.body<Note>()
             emit(ApiResult.Success(respond))
         } catch (e: Exception) {
             emit(ApiResult.Error(e.message))
@@ -66,14 +67,13 @@ class NoteRepositoryImpl(
             content = note.content
         )
 
-        val respond = client.put("$baseUrl/notes/$noteId") {
-            headers {
-                contentType(ContentType.Application.Json)
-            }
-            setBody(updatedNote)
-        }.body<Note>()
-
         try {
+            val respond = client.put("$baseUrl/notes/$noteId") {
+                headers {
+                    contentType(ContentType.Application.Json)
+                }
+                setBody(updatedNote)
+            }.body<Note>()
             emit(ApiResult.Success(respond))
         } catch (e: Exception) {
             emit(ApiResult.Error(e.message))
@@ -81,8 +81,8 @@ class NoteRepositoryImpl(
     }
 
     fun deleteNote(noteId: String): Flow<ApiResult<String>> = flow {
-        val deleteNote = client.delete("$baseUrl/notes/$noteId")
         try {
+            val deleteNote = client.delete("$baseUrl/notes/$noteId")
             emit(ApiResult.Success(deleteNote.toString()))
         } catch (e: Exception) {
             emit(ApiResult.Error(e.message))
