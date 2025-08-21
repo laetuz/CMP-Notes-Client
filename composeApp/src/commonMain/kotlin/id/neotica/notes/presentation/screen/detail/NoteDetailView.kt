@@ -1,11 +1,7 @@
 package id.neotica.notes.presentation.screen.detail
 
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
@@ -13,7 +9,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,6 +24,7 @@ import androidx.navigation.NavController
 import id.neotica.notes.domain.model.Note
 import id.neotica.notes.presentation.components.DotsMenuItem
 import id.neotica.notes.presentation.components.MenuDropDown
+import id.neotica.notes.presentation.components.topbar.TopAppBarNow
 import id.neotica.toast.ToastManager
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -62,40 +58,29 @@ fun NoteDetailView(
 
     Scaffold(
         topBar = {
-            TopAppBar({
-                Row (
-                    modifier = Modifier.fillMaxWidth().padding(end = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = "Back",
-                        modifier = Modifier.combinedClickable(
-                            onClick = { navController.navigateUp() }
-                        )
-                    )
-                    MenuDropDown(
-                        listOf(
-                            DotsMenuItem("Save") {
-                                val savedNote = note?.copy(
-                                    title = title,
-                                    content = content
-                                )?: Note(
-                                    title = title,
-                                    content = content
-                                )
-                                if (note != null) {
-                                    viewModel.updateNote(savedNote)
-                                } else {
-                                    viewModel.postNote(savedNote)
-                                }
-                            },
-                            DotsMenuItem("Delete") {
-                                viewModel.deleteNote(note?.id.toString())
+            TopAppBarNow(navController) {
+                MenuDropDown(
+                    listOf(
+                        DotsMenuItem("Save") {
+                            val savedNote = note?.copy(
+                                title = title,
+                                content = content
+                            )?: Note(
+                                title = title,
+                                content = content
+                            )
+                            if (note != null) {
+                                viewModel.updateNote(savedNote)
+                            } else {
+                                viewModel.postNote(savedNote)
                             }
-                        )
+                        },
+                        DotsMenuItem("Delete") {
+                            viewModel.deleteNote(note?.id.toString())
+                        }
                     )
-                }
-            })
+                )
+            }
         },
     ) {
         LazyColumn(

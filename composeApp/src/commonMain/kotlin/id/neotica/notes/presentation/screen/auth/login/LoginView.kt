@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
+import id.neotica.notes.presentation.components.topbar.TopAppBarNow
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -21,7 +22,9 @@ fun LoginView(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    Scaffold {
+    Scaffold (
+        topBar = { TopAppBarNow(navController) }
+    ) {
         LazyColumn(
             contentPadding = it
         ) {
