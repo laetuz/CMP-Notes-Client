@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import id.neotica.notes.data.AuthRepositoryImpl
 import id.neotica.notes.data.SessionManager
-import id.neotica.notes.domain.ApiResult
+import id.neotica.notes.domain.model.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

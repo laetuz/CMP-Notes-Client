@@ -1,4 +1,4 @@
-package id.neotica.notes.domain
+package id.neotica.notes.domain.model
 
 import kotlinx.serialization.Serializable
 

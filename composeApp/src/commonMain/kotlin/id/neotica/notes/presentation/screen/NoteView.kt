@@ -40,7 +40,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import id.neotica.toast.ToastManager
-import id.neotica.notes.domain.Note
+import id.neotica.notes.domain.model.Note
 import id.neotica.notes.presentation.components.DotsMenuItem
 import id.neotica.notes.presentation.components.MenuDropDown
 import id.neotica.notes.presentation.navigation.Screen

@@ -1,8 +1,9 @@
 package id.neotica.notes.data
 
 import co.touchlab.kermit.Logger
-import id.neotica.notes.domain.ApiResult
-import id.neotica.notes.domain.Note
+import id.neotica.notes.domain.NoteRepository
+import id.neotica.notes.domain.model.ApiResult
+import id.neotica.notes.domain.model.Note
 import id.neotica.notes.utils.baseUrl
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -19,9 +20,9 @@ import kotlinx.coroutines.flow.flow
 
 class NoteRepositoryImpl(
     private val client: HttpClient
-) {
+): NoteRepository {
 
-    fun getNotes(): Flow<ApiResult<List<Note>>> = flow {
+    override fun getNotes(): Flow<ApiResult<List<Note>>> = flow {
         emit(ApiResult.Loading())
         try {
             val respond = client.get("$baseUrl/notes").body<List<Note>>()
@@ -31,7 +32,7 @@ class NoteRepositoryImpl(
         }
     }
 
-    fun getNote(id: String): Flow<ApiResult<Note>> = flow {
+    override fun getNote(id: String): Flow<ApiResult<Note>> = flow {
         Logger.d("getNote $baseUrl/notes/$id")
         emit(ApiResult.Loading())
 
@@ -44,7 +45,7 @@ class NoteRepositoryImpl(
         }
     }
 
-    fun postNote(note: Note): Flow<ApiResult<Note>> = flow {
+    override fun postNote(note: Note): Flow<ApiResult<Note>> = flow {
         emit(ApiResult.Loading())
         val newNote = note
 
@@ -61,7 +62,7 @@ class NoteRepositoryImpl(
         }
     }
 
-    fun updateNote(noteId: String, note: Note): Flow<ApiResult<Note>> = flow {
+    override fun updateNote(noteId: String, note: Note): Flow<ApiResult<Note>> = flow {
         val updatedNote = Note(
             title = note.title,
             content = note.content
@@ -80,7 +81,7 @@ class NoteRepositoryImpl(
         }
     }
 
-    fun deleteNote(noteId: String): Flow<ApiResult<String>> = flow {
+    override fun deleteNote(noteId: String): Flow<ApiResult<String>> = flow {
         try {
             val deleteNote = client.delete("$baseUrl/notes/$noteId")
             emit(ApiResult.Success(deleteNote.toString()))

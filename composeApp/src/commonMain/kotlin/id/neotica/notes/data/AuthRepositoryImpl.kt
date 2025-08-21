@@ -1,7 +1,7 @@
 package id.neotica.notes.data
 
-import id.neotica.notes.domain.ApiResult
-import id.neotica.notes.domain.TokenData
+import id.neotica.notes.domain.model.ApiResult
+import id.neotica.notes.domain.model.TokenData
 import id.neotica.notes.utils.baseUrl
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

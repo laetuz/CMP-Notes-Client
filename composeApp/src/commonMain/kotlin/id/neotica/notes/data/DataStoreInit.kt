@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import id.neotica.notes.domain.TokenData
+import id.neotica.notes.domain.model.TokenData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import okio.Path.Companion.toPath
@@ -53,8 +53,6 @@ class SessionManager(private val dataStore: DataStore<Preferences>) {
         }
     }
 }
-
-//typealias PrefsDataStore = DataStore<Preferences>
 
 fun createDataStore(producePath: () -> String): DataStore<Preferences> =
     PreferenceDataStoreFactory.createWithPath(

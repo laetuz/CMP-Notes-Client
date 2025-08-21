@@ -1,4 +1,4 @@
-package id.neotica.notes.domain
+package id.neotica.notes.domain.model
 
 sealed class ApiResult<T>(
     val data: T? = null,

@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import co.touchlab.kermit.Logger
 import id.neotica.notes.data.NoteRepositoryImpl
-import id.neotica.notes.domain.ApiResult
-import id.neotica.notes.domain.Note
+import id.neotica.notes.domain.model.ApiResult
+import id.neotica.notes.domain.model.Note
 import id.neotica.notes.presentation.navigation.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -26,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import id.neotica.notes.domain.Note
+import id.neotica.notes.domain.model.Note
 import id.neotica.notes.presentation.components.DotsMenuItem
 import id.neotica.notes.presentation.components.MenuDropDown
 import id.neotica.toast.ToastManager

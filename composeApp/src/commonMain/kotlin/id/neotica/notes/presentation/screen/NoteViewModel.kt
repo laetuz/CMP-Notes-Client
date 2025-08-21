@@ -3,16 +3,16 @@ package id.neotica.notes.presentation.screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
-import id.neotica.notes.data.NoteRepositoryImpl
-import id.neotica.notes.domain.ApiResult
-import id.neotica.notes.domain.Note
+import id.neotica.notes.domain.NoteRepository
+import id.neotica.notes.domain.model.ApiResult
+import id.neotica.notes.domain.model.Note
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
-    private val noteRepo: NoteRepositoryImpl
+    private val noteRepo: NoteRepository
 ): ViewModel() {
 
     private val _notes: MutableStateFlow<List<Note>?> = MutableStateFlow(emptyList())
