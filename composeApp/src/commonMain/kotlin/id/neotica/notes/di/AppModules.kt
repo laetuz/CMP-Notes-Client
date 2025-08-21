@@ -6,7 +6,7 @@ import id.neotica.notes.data.SessionManager
 import id.neotica.notes.domain.NoteRepository
 import id.neotica.notes.presentation.screen.NoteViewModel
 import id.neotica.notes.presentation.screen.auth.login.LoginViewModel
-import id.neotica.notes.presentation.screen.auth.profile.ProfileViewModel
+import id.neotica.notes.presentation.screen.profile.ProfileViewModel
 import id.neotica.notes.presentation.screen.auth.register.RegisterViewModel
 import id.neotica.notes.presentation.screen.detail.NoteDetailViewModel
 import io.ktor.client.HttpClient

@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import id.neotica.notes.presentation.screen.NoteView
 import id.neotica.notes.presentation.screen.auth.login.LoginView
-import id.neotica.notes.presentation.screen.auth.profile.ProfileView
+import id.neotica.notes.presentation.screen.profile.ProfileView
 import id.neotica.notes.presentation.screen.auth.register.RegisterView
 import id.neotica.notes.presentation.screen.detail.NoteDetailView
 

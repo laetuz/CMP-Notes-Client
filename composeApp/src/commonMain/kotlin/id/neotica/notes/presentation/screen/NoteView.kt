@@ -74,7 +74,7 @@ fun NoteView(
                         MenuDropDown(
                             listOf(
                                 DotsMenuItem("Login") { navController.navigate(Screen.LoginScreen) },
-                                DotsMenuItem("lol") {},
+                                DotsMenuItem("Profile") { navController.navigate(Screen.ProfileScreen) },
                                 DotsMenuItem("lol") {},
                             )
                         )

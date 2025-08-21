@@ -14,15 +14,32 @@ import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
 class NoteRepositoryImpl(
-    private val client: HttpClient
+    private val client: HttpClient,
+    private val sessionManager: SessionManager
 ): NoteRepository {
 
     override fun getNotes(): Flow<ApiResult<List<Note>>> = flow {
+        emit(ApiResult.Loading())
+        try {
+            val token = "${sessionManager.getToken.first().token}"
+            val respond = client.get("$baseUrl/user/notes"){
+                headers.append(HttpHeaders.Authorization, "Bearer $token")
+            }.body<List<Note>>()
+            Logger.d("✨token:") {token}
+            emit(ApiResult.Success(respond))
+        } catch (e: Exception) {
+            emit(ApiResult.Error(e.message))
+        }
+    }
+
+    override fun getPublicNotes(): Flow<ApiResult<List<Note>>> = flow {
         emit(ApiResult.Loading())
         try {
             val respond = client.get("$baseUrl/notes").body<List<Note>>()
@@ -36,6 +53,23 @@ class NoteRepositoryImpl(
         Logger.d("getNote $baseUrl/notes/$id")
         emit(ApiResult.Loading())
 
+        val token = "${sessionManager.getToken.first().token}"
+
+        try {
+            val respond = client.get("$baseUrl/user/notes/$id"){
+                headers.append(HttpHeaders.Authorization, "Bearer $token")
+            }.body<Note>()
+            emit(ApiResult.Success(respond))
+        } catch (e: Exception) {
+            Logger.e("Error: ${e.message}")
+            emit(ApiResult.Error(e.message))
+        }
+    }
+
+    override fun getPublicNote(id: String): Flow<ApiResult<Note>> = flow {
+        Logger.d("getNote $baseUrl/notes/$id")
+        emit(ApiResult.Loading())
+
         try {
             val respond = client.get("$baseUrl/notes/$id").body<Note>()
             emit(ApiResult.Success(respond))
@@ -46,6 +80,25 @@ class NoteRepositoryImpl(
     }
 
     override fun postNote(note: Note): Flow<ApiResult<Note>> = flow {
+        emit(ApiResult.Loading())
+        val newNote = note
+        val token = "${sessionManager.getToken.first().token}"
+
+        try {
+            val respond = client.post("$baseUrl/notes") {
+                headers {
+                    append(HttpHeaders.Authorization, "Bearer $token")
+                    contentType(ContentType.Application.Json)
+                }
+                setBody(newNote)
+            }.body<Note>()
+            emit(ApiResult.Success(respond))
+        } catch (e: Exception) {
+            emit(ApiResult.Error(e.message))
+        }
+    }
+
+    override fun postPublicNote(note: Note): Flow<ApiResult<Note>> = flow {
         emit(ApiResult.Loading())
         val newNote = note
 
