@@ -73,9 +73,7 @@ fun NoteView(
                         SearchField(searchText)
                         MenuDropDown(
                             listOf(
-                                DotsMenuItem("Login") { navController.navigate(Screen.LoginScreen) },
                                 DotsMenuItem("Profile") { navController.navigate(Screen.ProfileScreen) },
-                                DotsMenuItem("lol") {},
                             )
                         )
                     }
@@ -130,7 +128,6 @@ fun NoteView(
                 }
             }
         }
-
     }
 }
 
