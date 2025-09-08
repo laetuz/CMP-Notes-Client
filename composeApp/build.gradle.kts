@@ -65,7 +65,7 @@ kotlin {
             implementation(libs.datastore)
             implementation(libs.datastore.preferences)
 
-            implementation(projects.toast)
+            implementation(libs.neotoast)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
